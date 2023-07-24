@@ -1,72 +1,9 @@
-#Quiz base component
-import math
 import random
+import math
 
-#Functions go here
-#Yes/no checker
-def yes_no(question):
-    valid = False
-    while not valid:
-        response = input(question).lower()
-
-        # If they say yes, output 'program continues'
-        if response == "yes" or response == "y":
-            response = "yes"
-            return response
-
-        # If they say no, output 'display instructions'
-        elif response == "no" or response == "n":
-            response = "no"
-            return response
-
-        else:
-            print("please answer yes / no")
-
-#Instructions
-def instructions():
-    #Write the instructions here
-    print('''
-^*^ How to Play Quizzers ^*^
-
-This is a Quiz game made in python. 
-Answer with how many rounds you will play or type enter for infinite mode. 
-
-Please type a respectfull response
-The computer will respond if your answer is correct or incorrect
-
-You have only 2 attempts to guess the answer. But if you dont want to play anymore type xxx or x to quit, 
-you can see your game summary at the end of your game and how many rounds you have won
-Enjoy 😆
-    ''')
-
-    return ""
-
-#Rounds
-def check_rounds():
-    
-    while True:
-        response = input("How many rounds: ")
-
-        round_error = "Please type either <enter> or an integer that is more than 0"
-        if response != "":
-            try:
-                #If infinite mode not chosen, check response
-                response = int(response)
-
-                #Start of loop
-                if response < 1:
-                    print(round_error)
-                    continue
-
-            except ValueError:
-                print(round_error)
-                continue
-
-        return response
-           
 #Int checker
 def int_check(response, low, high):
-    
+
     #Check if the answer is an integer
     try:
         responseinteger = int(response)
@@ -88,43 +25,20 @@ def int_check(response, low, high):
         print(error)
         return -999
 
-
-#Main component
-#Instructions component
-#Ask user if they have played before, If yes, show instructions
-played_before = yes_no("Have you played this game before? ")
-print(F"You choose {played_before}")
-
-if played_before == "no":
-    instructions()
-
-
-#Looping component
-#Variables go here    
-rounds_played = 0
-rounds_won = 0
-rounds_lost = 0
-score = 0
-guesses_allowed = 2
-
-low = 1
+#Define values
+low = 0
 high = 100
+guesses_allowed = 2
+score = 0
 
-#Ask user for # of rounds, enter for INFINITE MODE
-rounds = check_rounds()
-end_game = "no"
-
-
-#Rounds loop
+#Start loop
 end_game = "no"
 while end_game == "no":
-    
-    #Make a list of already guessed results that the user cant guess twice.
+
+    #Create list of already guessed
     already_guessed = []
     guesses_left = guesses_allowed
 
-
-    #Questions component
     #Generate random numbers for the questions
     secret = random.randint(1, 100)
     secret2 = random.randint(1, 10)    
@@ -173,18 +87,9 @@ while end_game == "no":
         
     if comp_choice == question_6:
         answer = (secret4 - secret2 + 1) * 2
-
-
+    
     #Start Round
     if 100 > answer > 0:
-        #Start of game Play Loop
-        #Rounds heading
-        if rounds == "":
-            heading = f"Continous Mode: Round {rounds_played + 1}"
-        else:
-            heading = f"Round {rounds_played + 1} of {rounds}"
-        print(heading)
-
         while guesses_left >= 1:
             
             #Print the computer choice
@@ -232,8 +137,6 @@ while end_game == "no":
 
                 #Correctly guessed secret
                 if guess == answer:
-                    rounds_played += 1
-                    rounds_won += 1
                     print("You got it! 🎊")
                     print()
                     score += 100
@@ -241,28 +144,10 @@ while end_game == "no":
 
                 #User runs out of guesses
                 if guesses_left <=0:
-                    rounds_played += 1
-                    rounds_lost += 1
                     print("You lost! 😭")
                     print(F"Answer: {answer}")
                     print()
                     break
-        
-        # check if we are out of rounds
-        if rounds_played == rounds:
-            end_game = "yes"
-            break
 
-
-#Endgame component
-#Calculate Game Stats
-percent_win = rounds_won / rounds_played * 100
-percent_lose = rounds_lost / rounds_played * 100
-
-#Displays game stats with % values to the nearest whole number
-print()
-print("*** Game Statistics ***")
-print(f"Win: {rounds_won}, {percent_win:.0f}% \nLoss: {rounds_lost}, {percent_lose:.0f}%")
-print(f"Score: {score} pts")
-print("Thank you for playing my game 🙃")
-print()
+#Print the score
+print(score)
