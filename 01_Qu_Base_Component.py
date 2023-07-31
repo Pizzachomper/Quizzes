@@ -101,9 +101,9 @@ if played_before == "no":
 
 #Looping component
 #Variables go here    
-rounds_played = 0
-rounds_won = 0
-rounds_lost = 0
+questions_played = 0
+questions_right = 0
+questions_wrong = 0
 score = 0
 guesses_allowed = 2
 
@@ -141,8 +141,8 @@ while end_game == "no":
     question_2 = F"What is {secret} * {secret2} - {secret3}? "
     question_3 = F"What is X if -{secret6}X + {secret} = {secret4}X - {secret3}? "
     #question_4 = F"What is X if {secret2}({secret4}X - {secret3}) = {secret10}"
-    question_5 = F"If the length of the rectangle is {secret2 * secret2} is the square root of the length?"
-    question_6 = F"if As age will be double Bs age next year and Bs age is {secret2} less than Cs age and Cs age is {secret4}?"
+    question_5 = F"If the length of the rectangle is {secret2 * secret2} and the width is the square root of the length. What is the width?"
+    question_6 = F"if As age will be double Bs age next year and Bs age is {secret2} less than Cs age and Cs age is {secret4}. How old is A?"
 
     #Create different questions that users will get
     question_list = [
@@ -180,9 +180,9 @@ while end_game == "no":
         #Start of game Play Loop
         #Rounds heading
         if rounds == "":
-            heading = f"Continous Mode: Round {rounds_played + 1}"
+            heading = f"Continous Mode: Round {questions_played + 1}"
         else:
-            heading = f"Round {rounds_played + 1} of {rounds}"
+            heading = f"Round {questions_played + 1} of {rounds}"
         print(heading)
 
         while guesses_left >= 1:
@@ -232,8 +232,8 @@ while end_game == "no":
 
                 #Correctly guessed secret
                 if guess == answer:
-                    rounds_played += 1
-                    rounds_won += 1
+                    questions_played += 1
+                    questions_right += 1
                     print("You got it! 🎊")
                     print()
                     score += 100
@@ -241,28 +241,33 @@ while end_game == "no":
 
                 #User runs out of guesses
                 if guesses_left <=0:
-                    rounds_played += 1
-                    rounds_lost += 1
+                    questions_played += 1
+                    questions_wrong += 1
                     print("You lost! 😭")
                     print(F"Answer: {answer}")
                     print()
                     break
         
         # check if we are out of rounds
-        if rounds_played == rounds:
+        if questions_played == rounds:
             end_game = "yes"
             break
 
+if questions_played > 0:
 
-#Endgame component
-#Calculate Game Stats
-percent_win = rounds_won / rounds_played * 100
-percent_lose = rounds_lost / rounds_played * 100
+    #Endgame component
+    #Calculate Game Stats
+    percent_right = questions_right / questions_played * 100
+    percent_wrong = questions_wrong / questions_played * 100
 
-#Displays game stats with % values to the nearest whole number
-print()
-print("*** Game Statistics ***")
-print(f"Win: {rounds_won}, {percent_win:.0f}% \nLoss: {rounds_lost}, {percent_lose:.0f}%")
-print(f"Score: {score} pts")
-print("Thank you for playing my game 🙃")
-print()
+    #Displays game stats with % values to the nearest whole number
+    print()
+    print("*** Game Statistics ***")
+    print(f"Questions right: {questions_right}, {percent_right:.0f}% \nQuestions wrong: {questions_wrong}, {percent_wrong:.0f}% \nQuestions played: {questions_played}")
+    print(f"Score: {score} pts")
+    print("Thank you for playing my game 🙃")
+    print()
+
+else:
+    print()
+    print("you did not play any rounds.  🐔")
